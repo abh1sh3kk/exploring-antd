@@ -17,22 +17,9 @@ import {
 import { MenuOutlined } from "@ant-design/icons";
 import FormPractice from "./components/FormPractice";
 import "./styles/Navbar.css";
+import Navbar from "./components/Navbar";
 
 const App = () => {
-
-    const menuItems = [
-        { label: "Home", key: "home", icon: <MailOutlined /> },
-        { label: "Profile", key: "profile", icon: <AppstoreOutlined /> },
-        {
-            label: "Settings",
-            key: "setting",
-            icon: <SettingOutlined />,
-            children: [
-                { label: "Setting 1", key: "setting1", icon: <SettingOutlined /> },
-                { label: "Setting 2", key: "setting2", icon: <SettingOutlined /> },
-            ],
-        },
-    ];
 
     const dataSource = [
         {
@@ -67,14 +54,6 @@ const App = () => {
         },
     ];
 
-    const navbarItems = [
-        { label: "Home", key: "home" },
-        { label: "About", key: "about" },
-        { label: "Contact Us", key: "contact" },
-        { label: "Pricing", key: "pricing" },
-    ];
-
-    // navbar
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
     function handleResize() {
@@ -88,61 +67,11 @@ const App = () => {
         };
     }, []);
 
-    useEffect(() => {
-        if (windowWidth > 500) setCollapsed(false);
-        else setCollapsed(true);
-    }, [windowWidth]);
-
-    // drawer
-    const [open, setOpen] = useState(false);
-    const showDrawer = () => {
-        setOpen(true);
-    };
-    const onClose = () => {
-        setOpen(false);
-    };
-
-    // sidebar collapse
-    const [collapsed, setCollapsed] = useState(false);
-
-    const collapse = () => {
-        setCollapsed(true);
-    };
-
-    const unCollapse = () => {
-        setCollapsed(false);
-    };
 
     return (
         <Layout style={{ height: "100vh" }}>
             <Row style={{ background: "white"}} justify={"center"}>
-
-                <Col className="navbar" span={24} sm={{span: 20}} >
-
-                    <div>
-                        <FormatPainterOutlined /> Logo
-                    </div>
-
-                    {windowWidth < 600 ? (
-                        <MenuOutlined onClick={showDrawer} />
-                    ) : (
-                        <div className="menu-items">
-                            <Menu
-                                mode="horizontal"
-                                items={[
-                                    { label: "About", key: "about" },
-                                    { label: "Contact Us", key: "contact" },
-                                    { label: "Pricing", key: "pricing" },
-                                ]}
-                            />
-                        </div>
-                    )}
-
-                    <Drawer open={open} onClose={onClose}>
-                        <Menu mode="inline" items={navbarItems} />
-                    </Drawer>
-
-                </Col>
+                <Navbar /> 
             </Row>
 
             <Row className="main-section">
