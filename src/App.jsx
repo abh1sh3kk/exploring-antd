@@ -150,22 +150,16 @@ const App = () => {
             </Header>
 
             <Layout className="main-section">
-                {/* <Sider
-                    style={{ backgroundColor: "#f0f0f0" }}
-                    collapsed={collapsed}
-                    onCollapse={(value) => setCollapsed(value)}
-                >
-                    <Menu style={{ backgroundColor: "#f0f0f0" }} mode="inline" items={menuItems} />
-                </Sider> */}
 
                 <Content style={{ padding: "1rem" }} className="dynamic-width">
-                    <Row gutter={5}>
+                    <Row >
                         <Col span={24}>
                             <Table dataSource={dataSource} columns={columns} />
                         </Col>
                     </Row>
+                    <Divider />
                     <Row>
-                        <Col span={24} md={{ span: 12 }}>
+                        <Col span={24} md={{ span: 16 }}>
                             <FormPractice />
                         </Col>
                     </Row>

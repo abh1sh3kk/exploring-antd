@@ -1,4 +1,4 @@
-import { Button, Form, Input, Select } from "antd";
+import { Button, Form, Input, Select, Typography } from "antd";
 import Password from "antd/es/input/Password";
 import React from "react";
 
@@ -26,6 +26,7 @@ function FormPractice() {
     return (
         <Form
             name="practise_form"
+            className="my-form"
             form={form}
             autoComplete="off"
             labelCol={{ span: 6 }}
