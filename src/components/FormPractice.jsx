@@ -25,11 +25,11 @@ function FormPractice() {
 
     return (
         <Form
+            wrapperCol={{ span: 20 }}
             name="practise_form"
             className="my-form"
             form={form}
             autoComplete="off"
-            labelCol={{ span: 6 }}
         >
             <Form.Item
                 label="Enter your first name"
@@ -85,7 +85,7 @@ function FormPractice() {
                 <Password></Password>
             </Form.Item>
 
-            <Form.Item wrapperCol={{ span: 24 }} >
+            <Form.Item wrapperCol={{ span: 24 }}>
                 <Button type="primary" className="button">
                     Submit
                 </Button>

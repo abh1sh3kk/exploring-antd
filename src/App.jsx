@@ -152,17 +152,20 @@ const App = () => {
             <Layout className="main-section">
 
                 <Content style={{ padding: "1rem" }} className="dynamic-width">
+
                     <Row >
-                        <Col span={24}>
-                            <Table dataSource={dataSource} columns={columns} />
+                        <Col span={24}> <Table dataSource={dataSource} columns={columns} pagination={{position: ["none", "none"]}} />
                         </Col>
                     </Row>
+
                     <Divider />
+
                     <Row>
                         <Col span={24} md={{ span: 16 }}>
                             <FormPractice />
                         </Col>
                     </Row>
+
                 </Content>
             </Layout>
         </Layout>
