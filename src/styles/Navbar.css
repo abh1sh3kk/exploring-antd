@@ -1,11 +1,14 @@
 .navbar {
-	display: flex;
-	justify-content: space-between;
-	width: 100%;
+    display: flex;
+    justify-content: space-between;
 }
 
-.menu-items {
-	/* width: 100%; */
-	/* display: flex; */
+.dynamic-width {
+    width: 75%;
+}
 
+@media only screen and (max-width: 600px) {
+    .dynamic-width {
+        width: 100%;
+    }
 }

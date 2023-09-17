@@ -26,6 +26,7 @@ import Sider from "antd/es/layout/Sider";
 import Navbar from "./components/Navbar";
 import "./styles/Navbar.css";
 
+
 const App = () => {
     const menuItems = [
         { label: "Home", key: "home", icon: <MailOutlined /> },
@@ -122,8 +123,8 @@ const App = () => {
 
     return (
         <Layout style={{ height: "100vh" }}>
-            <Header style={{ background: "white" }}>
-                <div className="navbar">
+            <Header style={{ background: "white", display: "flex", justifyContent: "center"}}>
+                <div className="navbar dynamic-width">
                     <div>
                         <FormatPainterOutlined /> Logo
                     </div>
@@ -148,23 +149,23 @@ const App = () => {
                 </div>
             </Header>
 
-            <Layout>
-                <Sider
+            <Layout className="main-section">
+                {/* <Sider
                     style={{ backgroundColor: "#f0f0f0" }}
                     collapsed={collapsed}
                     onCollapse={(value) => setCollapsed(value)}
                 >
                     <Menu style={{ backgroundColor: "#f0f0f0" }} mode="inline" items={menuItems} />
-                </Sider>
+                </Sider> */}
 
-                <Content style={{ padding: "1rem" }}>
+                <Content style={{ padding: "1rem" }} className="dynamic-width">
                     <Row gutter={5}>
                         <Col span={24}>
                             <Table dataSource={dataSource} columns={columns} />
                         </Col>
                     </Row>
                     <Row>
-                        <Col span={24} md={{ span: 8 }}>
+                        <Col span={24} md={{ span: 12 }}>
                             <FormPractice />
                         </Col>
                     </Row>

@@ -4,4 +4,14 @@
   box-sizing: border-box;
 }
 
+.main-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.button {
+  margin-inline: 0.2rem;
+}
 
