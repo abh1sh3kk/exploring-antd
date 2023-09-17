@@ -20,6 +20,7 @@ function FormPractice() {
             gender: "male",
             password: "forgot pw",
             confirm_password: "forgot pw",
+            email: "abhishek@gmail.com"
         });
     };
 

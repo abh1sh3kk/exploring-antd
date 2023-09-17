@@ -2,19 +2,10 @@ import React, { useEffect, useState } from "react";
 import {
     Col,
     Divider,
-    Drawer,
     Layout,
-    Menu,
     Row,
     Table,
 } from "antd";
-import {
-    AppstoreOutlined,
-    MailOutlined,
-    SettingOutlined,
-    FormatPainterOutlined,
-} from "@ant-design/icons";
-import { MenuOutlined } from "@ant-design/icons";
 import FormPractice from "./components/FormPractice";
 import "./styles/Navbar.css";
 import Navbar from "./components/Navbar";
@@ -33,6 +24,12 @@ const App = () => {
             name: "John",
             age: 42,
             address: "10 Downing Street",
+        },
+        {
+            key: "3",
+            name: "Paul",
+            age: 28,
+            address: "St. Marie Street",
         },
     ];
 
@@ -69,13 +66,13 @@ const App = () => {
 
 
     return (
-        <Layout style={{ height: "100vh" }}>
+        <main style={{ background:"#f5f5f5", minHeight: "100vh" }}>
             <Row style={{ background: "white"}} justify={"center"}>
                 <Navbar /> 
             </Row>
 
             <Row className="main-section">
-                <Col style={{ padding: "1rem", width: "100%" }} className="" span={24} sm={{span: 20}}>
+                <Col style={{ padding: "1rem", paddingTop: "2rem", width: "100%" }} className="" span={24} sm={{span: 20}}>
                     <Row>
                         <Col span={24}>
                             {" "}
@@ -97,7 +94,7 @@ const App = () => {
 
                 </Col>
             </Row>
-        </Layout>
+        </main>
     );
 };
 
