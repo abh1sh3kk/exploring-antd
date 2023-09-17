@@ -26,8 +26,8 @@ import Sider from "antd/es/layout/Sider";
 import Navbar from "./components/Navbar";
 import "./styles/Navbar.css";
 
-
 const App = () => {
+
     const menuItems = [
         { label: "Home", key: "home", icon: <MailOutlined /> },
         { label: "Profile", key: "profile", icon: <AppstoreOutlined /> },
@@ -123,11 +123,14 @@ const App = () => {
 
     return (
         <Layout style={{ height: "100vh" }}>
-            <Header style={{ background: "white", display: "flex", justifyContent: "center"}}>
-                <div className="navbar dynamic-width">
+            <Row style={{ background: "white"}} justify={"center"}>
+
+                <Col className="navbar" span={24} sm={{span: 20}} >
+
                     <div>
                         <FormatPainterOutlined /> Logo
                     </div>
+
                     {windowWidth < 600 ? (
                         <MenuOutlined onClick={showDrawer} />
                     ) : (
@@ -146,15 +149,20 @@ const App = () => {
                     <Drawer open={open} onClose={onClose}>
                         <Menu mode="inline" items={navbarItems} />
                     </Drawer>
-                </div>
-            </Header>
 
-            <Layout className="main-section">
+                </Col>
+            </Row>
 
-                <Content style={{ padding: "1rem" }} className="dynamic-width">
-
-                    <Row >
-                        <Col span={24}> <Table dataSource={dataSource} columns={columns} pagination={{position: ["none", "none"]}} />
+            <Row className="main-section">
+                <Col style={{ padding: "1rem", width: "100%" }} className="" span={24} sm={{span: 20}}>
+                    <Row>
+                        <Col span={24}>
+                            {" "}
+                            <Table
+                                dataSource={dataSource}
+                                columns={columns}
+                                pagination={{ position: ["none", "none"] }}
+                            />
                         </Col>
                     </Row>
 
@@ -166,8 +174,8 @@ const App = () => {
                         </Col>
                     </Row>
 
-                </Content>
-            </Layout>
+                </Col>
+            </Row>
         </Layout>
     );
 };
@@ -184,3 +192,51 @@ export default App;
 //         </Col>
 //     </Row>
 // </main>
+
+// <Layout style={{ height: "100vh" }}>
+//     <Header style={{ background: "white", display: "flex", justifyContent: "center"}}>
+//         <div className="navbar dynamic-width">
+//             <div>
+//                 <FormatPainterOutlined /> Logo
+//             </div>
+//             {windowWidth < 600 ? (
+//                 <MenuOutlined onClick={showDrawer} />
+//             ) : (
+//                 <div className="menu-items">
+//                     <Menu
+//                         mode="horizontal"
+//                         items={[
+//                             { label: "About", key: "about" },
+//                             { label: "Contact Us", key: "contact" },
+//                             { label: "Pricing", key: "pricing" },
+//                         ]}
+//                     />
+//                 </div>
+//             )}
+
+//             <Drawer open={open} onClose={onClose}>
+//                 <Menu mode="inline" items={navbarItems} />
+//             </Drawer>
+//         </div>
+//     </Header>
+
+//     <Layout className="main-section">
+
+//         <Content style={{ padding: "1rem" }} className="dynamic-width">
+
+//             <Row >
+//                 <Col span={24}> <Table dataSource={dataSource} columns={columns} pagination={{position: ["none", "none"]}} />
+//                 </Col>
+//             </Row>
+
+//             <Divider />
+
+//             <Row>
+//                 <Col span={24} md={{ span: 16 }}>
+//                     <FormPractice />
+//                 </Col>
+//             </Row>
+
+//         </Content>
+//     </Layout>
+// </Layout>
