@@ -4,13 +4,22 @@
   box-sizing: border-box;
 }
 
-.main-section {
-  display: flex;
-  flex-direction: column;
-  /* justify-content: center; */
-  align-items: center;
+.header {
+  background-color: white;
+}
+
+.main-section-container {
+  width: 100%;
   min-height: 100vh;
-  /* padding-bottom: 1rem; */
+
+  display: flex;
+  justify-content: center;
+
+  padding: 1rem;
+}
+
+.main-section {
+  width: 100%;
 }
 
 .button {
@@ -19,10 +28,15 @@
 
 .my-form {
   background-color: white;
-  padding: 3.5rem 4.5rem 2rem 2.5rem;
-  /* padding: 2.5rem 4rem 2rem 2rem; */
+
+  /* padding: 3.5rem 4.5rem 2rem 2.5rem; */
+  padding: 2.7rem 2.5rem 2rem 1.5rem;
   margin-bottom: 1rem;
-  /* box-shadow: 2px 2px 2px black; */
   border-radius: 8px;
+
   border: 1px solid rgba(200, 200, 200, 0.41);
+}
+
+.w-100 {
+  width: 100%;
 }

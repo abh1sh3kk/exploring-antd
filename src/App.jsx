@@ -1,17 +1,11 @@
 import React, { useEffect, useState } from "react";
-import {
-    Col,
-    Divider,
-    Layout,
-    Row,
-    Table,
-} from "antd";
+import { Col, Divider, Layout, Row, Table } from "antd";
 import FormPractice from "./components/FormPractice";
 import "./styles/Navbar.css";
 import Navbar from "./components/Navbar";
+import { Content, Footer, Header } from "antd/es/layout/layout";
 
 const App = () => {
-
     const dataSource = [
         {
             key: "1",
@@ -64,37 +58,34 @@ const App = () => {
         };
     }, []);
 
-
     return (
-        <main style={{ background:"#f5f5f5", minHeight: "100vh" }}>
-            <Row style={{ background: "white"}} justify={"center"}>
-                <Navbar /> 
-            </Row>
+        <Layout style={{ background: "#f5f5f5", minHeight: "100vh" }}>
+            <Header className="header">
+                <Row justify={"center"}>
+                    <Navbar />
+                </Row>
+            </Header>
 
-            <Row className="main-section">
-                <Col style={{ padding: "1rem", paddingTop: "2rem", width: "100%" }} className="" span={24} sm={{span: 20}}>
-                    <Row>
-                        <Col span={24}>
-                            {" "}
-                            <Table
-                                dataSource={dataSource}
-                                columns={columns}
-                                pagination={{ position: ["none", "none"] }}
-                            />
-                        </Col>
-                    </Row>
+            <Content className="main-section-container">
+                <Row style={{ width: "100%" }} justify={"center"}>
+                    <Col className="main-section" span={24} sm={{ span: 20 }}>
+                        <Table
+                            dataSource={dataSource}
+                            columns={columns}
+                            pagination={{ position: ["none", "none"] }}
+                        />
 
-                    <Divider />
+                        <Divider />
 
-                    <Row>
-                        <Col span={24} md={{ span: 16 }}>
+                        <Row className="w-100">
                             <FormPractice />
-                        </Col>
-                    </Row>
+                        </Row>
+                    </Col>
+                </Row>
+            </Content>
 
-                </Col>
-            </Row>
-        </main>
+            <Footer></Footer>
+        </Layout>
     );
 };
 

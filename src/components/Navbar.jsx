@@ -36,15 +36,15 @@ function Navbar() {
 
     return (
         <>
-            <Col className="navbar" span={24} sm={{ span: 20 }}>
-                <div>
+            <Col className="navbar " span={24} sm={{span: 20}} >
+                <figure>
                     <FormatPainterOutlined /> Logo
-                </div>
+                </figure>
 
                 {windowWidth < 600 ? (
                     <MenuOutlined onClick={showDrawer} />
                 ) : (
-                    <div className="menu-items">
+                    <section className="menu-items">
                         <Menu
                             mode="horizontal"
                             items={[
@@ -53,7 +53,7 @@ function Navbar() {
                                 { label: "Pricing", key: "pricing" },
                             ]}
                         />
-                    </div>
+                    </section>
                 )}
 
                 <Drawer open={open} onClose={onClose}>
