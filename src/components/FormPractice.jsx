@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, Select, Typography } from "antd";
+import { Button, Col, Form, Input, Select, Tag, Typography } from "antd";
 import Password from "antd/es/input/Password";
 import React from "react";
 
@@ -24,15 +24,25 @@ function FormPractice() {
         });
     };
 
+    const customizeRequiredMark = (label, { required }) => {
+        return (
+            <>
+                {label}
+                {required ? <span style={{color: "red", marginInline: "0.3rem", fontSize: "1.2rem"}}>*</span> : <></>}
+            </>
+        );
+    };
+
     return (
-        <Col className="form-container" span={24} sm={{span: 14}}>
+        <Col className="form-container" span={24}  md={{ span: 18}} xl={{ span: 16}} xxl={{span: 14}}>
             <Form
-                // wrapperCol={{ span: 20 }}
-                wrapperCol={{flex: 1}}
+                wrapperCol={{ span: 24 }}
+                labelCol={{ span: 6, sm: 8, md: 9, xl: 6 }}
                 name="practise_form"
                 className="my-form"
                 form={form}
                 autoComplete="off"
+                requiredMark={customizeRequiredMark}
             >
                 <Form.Item
                     label="Enter your first name"
@@ -88,7 +98,7 @@ function FormPractice() {
                     <Password></Password>
                 </Form.Item>
 
-                <Form.Item wrapperCol={{ span: 24 }}>
+                <Form.Item wrapperCol={{ span: 24, md: {offset: 4}, xl: {offset: 6} }}>
                     <Button type="primary" className="button">
                         Submit
                     </Button>
