@@ -13,6 +13,9 @@ export default function InfoPanel({ selectedItem }) {
       <div>{selectedItem?.job}</div>
       <div>Age: {selectedItem?.age}</div>
       <div>Address: {selectedItem?.address}</div>
+      <div>Email: {selectedItem?.email}</div>
+      <div>Phone Number: {selectedItem?.phone_number}</div>
+      <div>Gender: {selectedItem?.gender}</div>
     </section>
   );
 }

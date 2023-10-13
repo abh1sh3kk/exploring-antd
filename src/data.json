@@ -177,14 +177,14 @@
   },
   {
     "id": 17,
-    "first_name": "Laura",
-    "last_name": "Dicke",
-    "email": "ldickeg@earthlink.net",
-    "gender": "Female",
+    "first_name": "Walter",
+    "last_name": "White",
+    "email": "whitewalter@earthlink.net",
+    "gender": "Male",
     "address": "PO Box 760",
-    "job": "Structural Analysis Engineer",
+    "job": "Professor",
     "phone_number": "+375 716 468 0122",
-    "age": 60
+    "age": 53
   },
   {
     "id": 18,

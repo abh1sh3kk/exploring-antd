@@ -115,4 +115,22 @@ button:disabled {
   color: rgb(59, 59, 59);
   border: 1px solid #d7d7d7;
   width: 100%;
+
+  transition: all 1s ease-in-out;
+  animation: 3s infinite alternate panel-animation;
+
+}
+
+@keyframes panel-animation {
+  from {
+    height: 0;
+  }
+
+  50% {
+    height: 50%;
+  }
+
+  to {
+    height: 100%;
+  }
 }
