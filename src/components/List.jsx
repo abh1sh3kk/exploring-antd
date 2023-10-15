@@ -30,7 +30,7 @@ export default function List() {
 
   console.log("render check");
 
-  const [selectedPerson, setSelectedPerson] = useState();
+  
 
   const handleItemNumChange = (e) => {
     setSelectedPerson(null);
@@ -57,8 +57,11 @@ export default function List() {
     );
   }, [paginationState]);
 
+  const [selectedPerson, setSelectedPerson] = useState(refinedData[startIndex]);
+  console.log(selectedPerson)
+
   useEffect(() => {
-    if (selectedPerson) setSelectedPerson(null);
+    setSelectedPerson(refinedData[startIndex]);
   }, [paginationState, filterOptions, sortOptions]);
 
   const handleShowMore = (id) => {
