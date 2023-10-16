@@ -50,6 +50,8 @@ export default function List() {
         newPaginationNumber = 1;
       } else return;
 
+      let newStartIndex = (newPaginationNumber - 1) * paginationState.noOfItems;
+
       const newPaginationState = {
         ...paginationState,
         paginationNumber: newPaginationNumber,
@@ -57,7 +59,7 @@ export default function List() {
 
       setPaginationState(newPaginationState);
       // quick fix
-      setSelectedPerson(refinedData[startIndex + paginationState.noOfItems]);
+      setSelectedPersonId(refinedData[newStartIndex]?.id);
     },
     [paginationState]
   );
@@ -76,8 +78,9 @@ export default function List() {
     );
   }, [paginationState]);
 
-  const [selectedPerson, setSelectedPerson] = useState(refinedData[startIndex]);
-  console.log(selectedPerson);
+  const [selectedPersonId, setSelectedPersonId] = useState(
+    refinedData[startIndex]?.id
+  );
 
   const handleItemNumChange = useCallback(
     (e) => {
@@ -88,29 +91,25 @@ export default function List() {
           noOfItems: e.target.value,
         };
       });
-      // setSelectedPerson(refinedData[startIndex]);
     },
     [paginationState, refinedData]
   );
 
-
-  // this causes the component to render more than once
   useEffect(() => {
-    // if (
-    //   !refinedData
-    //     .slice(startIndex, endIndex + 1)
-    //     .some((obj) => obj.id === selectedPerson?.id)
-    // ) {
-    //   setSelectedPerson(refinedData[startIndex]);
-    // }
+    if (
+      !refinedData
+        .slice(startIndex, endIndex + 1)
+        .some((obj) => obj?.id === selectedPersonId)
+    ) {
+      setSelectedPersonId(refinedData[startIndex].id);
+    }
   }, [paginationState, filterOptions, sortOptions]);
 
   const selectNewPerson = (id) => {
-    if (id === selectedPerson?.id) setSelectedPerson(null); // deselect
+    if (id === selectedPersonId) setSelectedPersonId(null); // deselect
     else {
-      let selectedObject = refinedData.find((obj) => obj.id === id);
-      setSelectedPerson(selectedObject);
-
+      let selectedObjectId = refinedData.find((obj) => obj?.id === id)?.id;
+      setSelectedPersonId(selectedObjectId);
     }
   };
 
@@ -119,13 +118,13 @@ export default function List() {
       .slice(startIndex, endIndex + 1)
       .map((obj) => (
         <ListItem
-          key={obj.id}
-          selected={selectedPerson?.id === obj?.id}
+          key={obj?.id}
+          selected={selectedPersonId === obj?.id}
           personInfo={obj}
           selectNewPerson={selectNewPerson}
         />
       ));
-  }, [refinedData, startIndex, endIndex, selectedPerson]);
+  }, [refinedData, startIndex, endIndex, selectedPersonId]);
 
   const lowestPaginationLimit = 1;
   const highestPaginationLimit = Math.ceil(
@@ -143,7 +142,9 @@ export default function List() {
         handleItemNumChange={handleItemNumChange}
       />
 
-      <InfoPanel selectedItem={selectedPerson} />
+      <InfoPanel
+        selectedItem={refinedData.find((obj) => obj?.id === selectedPersonId)}
+      />
 
       <Pagination handlePagination={handlePagination} />
 
