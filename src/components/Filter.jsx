@@ -6,7 +6,7 @@ export default function Filter({
   sortOptions,
   setSortOptions,
   noOfItems,
-  handleItemNumChange
+  handlePagination
 }) {
   return (
     <div className="filter-btn-group">
@@ -41,7 +41,9 @@ export default function Filter({
         <select
           id="item-number"
           name="itemNumber"
-          onChange={handleItemNumChange}
+          onChange={(e) => {
+            handlePagination(+e.target.value)}
+          }
           value={noOfItems}
         >
           <option value="2">2</option>

@@ -27,8 +27,6 @@ export default function List() {
       sortOptions.sortBy,
       sortOptions.sortOrder
     );
-    // resets pagination but renders the component 3 times
-    // setPaginationState((oldState) => ({ ...oldState, paginationNumber: 1 }));
     return sortedData;
   }, [filterOptions, sortOptions]);
 
@@ -36,34 +34,38 @@ export default function List() {
 
   const handlePagination = useCallback(
     (action) => {
-      let newPaginationNumber;
+      let newPaginationNumber = paginationState.paginationNumber;
+      let newNoOfItems = paginationState.noOfItems;
 
       if (
         action === "previous" &&
         paginationState.paginationNumber > lowestPaginationLimit
       ) {
-        newPaginationNumber = paginationState.paginationNumber - 1;
+        newPaginationNumber--;
       } else if (
         action === "next" &&
         paginationState.paginationNumber < highestPaginationLimit
       ) {
-        newPaginationNumber = paginationState.paginationNumber + 1;
+        newPaginationNumber++;
       } else if (action === "reset") {
         newPaginationNumber = 1;
+      } else if (typeof action === "number") {
+        console.log("here");
+        newNoOfItems = action;
       } else return;
-
-      let newStartIndex = (newPaginationNumber - 1) * paginationState.noOfItems;
 
       const newPaginationState = {
         ...paginationState,
+        noOfItems: newNoOfItems,
         paginationNumber: newPaginationNumber,
       };
 
       setPaginationState(newPaginationState);
       // quick fix
+      let newStartIndex = (newPaginationNumber - 1) * paginationState.noOfItems;
       setSelectedPersonId(refinedData[newStartIndex]?.id);
     },
-    [paginationState]
+    [paginationState.noOfItems, paginationState.paginationNumber]
   );
 
   const startIndex = useMemo(() => {
@@ -82,19 +84,6 @@ export default function List() {
 
   const [selectedPersonId, setSelectedPersonId] = useState(
     refinedData[startIndex]?.id
-  );
-
-  const handleItemNumChange = useCallback(
-    (e) => {
-      setPaginationState((prevState) => {
-        return {
-          ...prevState,
-          paginationNumber: 1,
-          noOfItems: e.target.value,
-        };
-      });
-    },
-    [paginationState, refinedData]
   );
 
   useEffect(() => {
@@ -124,7 +113,7 @@ export default function List() {
         sortOptions={sortOptions}
         setSortOptions={setSortOptions}
         noOfItems={paginationState.noOfItems}
-        handleItemNumChange={handleItemNumChange}
+        handlePagination={handlePagination}
       />
 
       <InfoPanel
