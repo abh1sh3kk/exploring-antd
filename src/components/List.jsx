@@ -54,6 +54,10 @@ export default function List() {
     refinedData[startIndex]?.id
   );
 
+  const dataToDisplay = useMemo(() => {
+    return refinedData.slice(startIndex, endIndex + 1);
+  }, [refinedData, startIndex, endIndex, selectedPersonId]);
+
   const handlePagination = useCallback(
     (action) => {
       let newPaginationNumber = paginationState.paginationNumber;
@@ -83,27 +87,13 @@ export default function List() {
 
       setPaginationState(newPaginationState);
 
-      let newStartIndex = (newPaginationNumber - 1) * paginationState.noOfItems;
+      const newStartIndex = getStartIndex(newPaginationNumber, newNoOfItems);
       handleItemSelection(refinedData[newStartIndex]?.id);
     },
-    [paginationState.noOfItems, paginationState.paginationNumber]
+    [paginationState, paginationState]
   );
 
   console.log("render check");
-
-  useEffect(() => {
-    if (
-      !refinedData
-        .slice(startIndex, endIndex + 1)
-        .some((obj) => obj?.id === selectedPersonId)
-    ) {
-      // setSelectedPersonId(refinedData[startIndex].id);
-    }
-  }, [paginationState, filterOptions, sortOptions]);
-
-  const dataToDisplay = useMemo(() => {
-    return refinedData.slice(startIndex, endIndex + 1);
-  }, [refinedData, startIndex, endIndex, selectedPersonId]);
 
   const lowestPaginationLimit = 1;
   const highestPaginationLimit = useMemo(() => {
