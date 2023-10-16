@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import theData from "../data.json";
 import ListItem from "./ListItem";
 import Pagination from "./Pagination";
@@ -7,12 +7,14 @@ import InfoPanel from "./InfoPanel";
 
 export default function List() {
   const [filterOptions, setFilterOptions] = useState({
-    gender: "all"
+    gender: "all",
   });
+
   const [sortOptions, setSortOptions] = useState({
     sortOrder: "descending",
-    sortBy: "age"
+    sortBy: "age",
   });
+
   const refinedData = useMemo(() => {
     const filteredData = filterDataByGender(theData, filterOptions.gender);
     const sortedData = sortByType(
@@ -25,23 +27,40 @@ export default function List() {
 
   const [paginationState, setPaginationState] = useState({
     noOfItems: 5,
-    paginationNumber: 1
+    paginationNumber: 1,
   });
 
   console.log("render check");
 
-  
+  const handlePagination = useCallback(
+    (action) => {
+      let newPaginationNumber;
 
-  const handleItemNumChange = (e) => {
-    setSelectedPerson(null);
-    setPaginationState((prevState) => {
-      return {
-        ...prevState,
-        paginationNumber: 1,
-        noOfItems: e.target.value
+      if (
+        action === "previous" &&
+        paginationState.paginationNumber > lowestPaginationLimit
+      ) {
+        newPaginationNumber = paginationState.paginationNumber - 1;
+      } else if (
+        action === "next" &&
+        paginationState.paginationNumber < highestPaginationLimit
+      ) {
+        newPaginationNumber = paginationState.paginationNumber + 1;
+      } else if (action === "reset") {
+        newPaginationNumber = 1;
+      } else return;
+
+      const newPaginationState = {
+        ...paginationState,
+        paginationNumber: newPaginationNumber,
       };
-    });
-  };
+
+      setPaginationState(newPaginationState);
+      // quick fix
+      setSelectedPerson(refinedData[startIndex + paginationState.noOfItems]);
+    },
+    [paginationState]
+  );
 
   const startIndex = useMemo(() => {
     return getStartIndex(
@@ -58,17 +77,40 @@ export default function List() {
   }, [paginationState]);
 
   const [selectedPerson, setSelectedPerson] = useState(refinedData[startIndex]);
-  console.log(selectedPerson)
+  console.log(selectedPerson);
 
+  const handleItemNumChange = useCallback(
+    (e) => {
+      setPaginationState((prevState) => {
+        return {
+          ...prevState,
+          paginationNumber: 1,
+          noOfItems: e.target.value,
+        };
+      });
+      // setSelectedPerson(refinedData[startIndex]);
+    },
+    [paginationState, refinedData]
+  );
+
+
+  // this causes the component to render more than once
   useEffect(() => {
-    setSelectedPerson(refinedData[startIndex]);
+    // if (
+    //   !refinedData
+    //     .slice(startIndex, endIndex + 1)
+    //     .some((obj) => obj.id === selectedPerson?.id)
+    // ) {
+    //   setSelectedPerson(refinedData[startIndex]);
+    // }
   }, [paginationState, filterOptions, sortOptions]);
 
-  const handleShowMore = (id) => {
-    if (id === selectedPerson?.id) setSelectedPerson(null);
+  const selectNewPerson = (id) => {
+    if (id === selectedPerson?.id) setSelectedPerson(null); // deselect
     else {
       let selectedObject = refinedData.find((obj) => obj.id === id);
       setSelectedPerson(selectedObject);
+
     }
   };
 
@@ -80,7 +122,7 @@ export default function List() {
           key={obj.id}
           selected={selectedPerson?.id === obj?.id}
           personInfo={obj}
-          handleShowMore={handleShowMore}
+          selectNewPerson={selectNewPerson}
         />
       ));
   }, [refinedData, startIndex, endIndex, selectedPerson]);
@@ -103,12 +145,7 @@ export default function List() {
 
       <InfoPanel selectedItem={selectedPerson} />
 
-      <Pagination
-        paginationState={paginationState}
-        setPaginationState={setPaginationState}
-        lowerLimit={lowestPaginationLimit}
-        upperLimit={highestPaginationLimit}
-      />
+      <Pagination handlePagination={handlePagination} />
 
       <ul>{nameList}</ul>
     </section>
