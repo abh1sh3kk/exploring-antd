@@ -1,9 +1,11 @@
-function ListItem({ personInfo, selectNewPerson, selected  }) {
+function ListItem({ personInfo, handleItemSelection, selected }) {
   return (
     <li
       className={selected ? `list-item--selected` : ""}
       key={personInfo.id}
-      onClick={() => selectNewPerson(personInfo.id)}
+      onClick={() => {
+        handleItemSelection(personInfo.id);
+      }}
       data-personid={personInfo.id}
     >
       <div>

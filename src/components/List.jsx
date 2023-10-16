@@ -20,6 +20,25 @@ export default function List() {
     paginationNumber: 1,
   });
 
+  const startIndex = useMemo(() => {
+    return getStartIndex(
+      paginationState.paginationNumber,
+      paginationState.noOfItems
+    );
+  }, [paginationState]);
+
+  const endIndex = useMemo(() => {
+    return getEndIndex(
+      paginationState.paginationNumber,
+      paginationState.noOfItems
+    );
+  }, [paginationState]);
+
+  const handleItemSelection = (id) => {
+    if (selectedPersonId === id) setSelectedPersonId(null);
+    else setSelectedPersonId(id);
+  };
+
   const refinedData = useMemo(() => {
     const filteredData = filterDataByGender(theData, filterOptions.gender);
     const sortedData = sortByType(
@@ -27,10 +46,13 @@ export default function List() {
       sortOptions.sortBy,
       sortOptions.sortOrder
     );
+
     return sortedData;
   }, [filterOptions, sortOptions]);
 
-  console.log("render check");
+  const [selectedPersonId, setSelectedPersonId] = useState(
+    refinedData[startIndex]?.id
+  );
 
   const handlePagination = useCallback(
     (action) => {
@@ -50,7 +72,6 @@ export default function List() {
       } else if (action === "reset") {
         newPaginationNumber = 1;
       } else if (typeof action === "number") {
-        console.log("here");
         newNoOfItems = action;
       } else return;
 
@@ -61,30 +82,14 @@ export default function List() {
       };
 
       setPaginationState(newPaginationState);
-      // quick fix
+
       let newStartIndex = (newPaginationNumber - 1) * paginationState.noOfItems;
-      setSelectedPersonId(refinedData[newStartIndex]?.id);
+      handleItemSelection(refinedData[newStartIndex]?.id);
     },
     [paginationState.noOfItems, paginationState.paginationNumber]
   );
 
-  const startIndex = useMemo(() => {
-    return getStartIndex(
-      paginationState.paginationNumber,
-      paginationState.noOfItems
-    );
-  }, [paginationState]);
-
-  const endIndex = useMemo(() => {
-    return getEndIndex(
-      paginationState.paginationNumber,
-      paginationState.noOfItems
-    );
-  }, [paginationState]);
-
-  const [selectedPersonId, setSelectedPersonId] = useState(
-    refinedData[startIndex]?.id
-  );
+  console.log("render check");
 
   useEffect(() => {
     if (
@@ -92,7 +97,7 @@ export default function List() {
         .slice(startIndex, endIndex + 1)
         .some((obj) => obj?.id === selectedPersonId)
     ) {
-      setSelectedPersonId(refinedData[startIndex].id);
+      // setSelectedPersonId(refinedData[startIndex].id);
     }
   }, [paginationState, filterOptions, sortOptions]);
 
@@ -125,7 +130,7 @@ export default function List() {
       <ListBox
         dataToDisplay={dataToDisplay}
         selectedPersonId={selectedPersonId}
-        setSelectedPersonId={setSelectedPersonId}
+        handleItemSelection={handleItemSelection}
       />
     </section>
   );
