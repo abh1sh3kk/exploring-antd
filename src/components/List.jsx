@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import theData from "../data.json";
-import ListItem from "./ListItem";
 import Pagination from "./Pagination";
 import Filter from "./Filter";
 import InfoPanel from "./InfoPanel";
+import ListBox from "./ListBox";
 
 export default function List() {
   const [filterOptions, setFilterOptions] = useState({
@@ -15,6 +15,11 @@ export default function List() {
     sortBy: "age",
   });
 
+  const [paginationState, setPaginationState] = useState({
+    noOfItems: 5,
+    paginationNumber: 1,
+  });
+
   const refinedData = useMemo(() => {
     const filteredData = filterDataByGender(theData, filterOptions.gender);
     const sortedData = sortByType(
@@ -22,13 +27,10 @@ export default function List() {
       sortOptions.sortBy,
       sortOptions.sortOrder
     );
+    // resets pagination but renders the component 3 times
+    // setPaginationState((oldState) => ({ ...oldState, paginationNumber: 1 }));
     return sortedData;
   }, [filterOptions, sortOptions]);
-
-  const [paginationState, setPaginationState] = useState({
-    noOfItems: 5,
-    paginationNumber: 1,
-  });
 
   console.log("render check");
 
@@ -105,31 +107,14 @@ export default function List() {
     }
   }, [paginationState, filterOptions, sortOptions]);
 
-  const selectNewPerson = (id) => {
-    if (id === selectedPersonId) setSelectedPersonId(null); // deselect
-    else {
-      let selectedObjectId = refinedData.find((obj) => obj?.id === id)?.id;
-      setSelectedPersonId(selectedObjectId);
-    }
-  };
-
-  const nameList = useMemo(() => {
-    return refinedData
-      .slice(startIndex, endIndex + 1)
-      .map((obj) => (
-        <ListItem
-          key={obj?.id}
-          selected={selectedPersonId === obj?.id}
-          personInfo={obj}
-          selectNewPerson={selectNewPerson}
-        />
-      ));
+  const dataToDisplay = useMemo(() => {
+    return refinedData.slice(startIndex, endIndex + 1);
   }, [refinedData, startIndex, endIndex, selectedPersonId]);
 
   const lowestPaginationLimit = 1;
-  const highestPaginationLimit = Math.ceil(
-    refinedData.length / paginationState?.noOfItems
-  );
+  const highestPaginationLimit = useMemo(() => {
+    return Math.ceil(refinedData.length / paginationState?.noOfItems);
+  }, [paginationState?.noOfItems, refinedData.length]);
 
   return (
     <section className="list-section">
@@ -148,7 +133,11 @@ export default function List() {
 
       <Pagination handlePagination={handlePagination} />
 
-      <ul>{nameList}</ul>
+      <ListBox
+        dataToDisplay={dataToDisplay}
+        selectedPersonId={selectedPersonId}
+        setSelectedPersonId={setSelectedPersonId}
+      />
     </section>
   );
 }
