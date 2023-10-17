@@ -6,6 +6,8 @@ import InfoPanel from "./InfoPanel";
 import ListBox from "./ListBox";
 
 export default function List() {
+  console.log("render check");
+
   const [filterOptions, setFilterOptions] = useState({
     gender: "all",
   });
@@ -44,7 +46,10 @@ export default function List() {
     return sortedData[startIndex]?.id;
   });
 
-  console.log("render check");
+  useEffect(() => {
+    console.log(dataToDisplay[0])
+    setSelectedPersonId(dataToDisplay[0]?.id)
+  }, [filterOptions, sortOptions, paginationState]);
 
   const handleItemSelection = (id) => {
     setSelectedPersonId(id);
@@ -57,7 +62,6 @@ export default function List() {
       sortOptions.sortBy,
       sortOptions.sortOrder
     );
-    handleItemSelection(sortedData[startIndex]?.id);
     return sortedData;
   }, [filterOptions, sortOptions]);
 
@@ -93,11 +97,8 @@ export default function List() {
       };
 
       setPaginationState(newPaginationState);
-
-      const newStartIndex = getStartIndex(newPaginationNumber, newNoOfItems);
-      handleItemSelection(refinedData[newStartIndex]?.id);
     },
-    [paginationState, paginationState, refinedData]
+    [paginationState, refinedData]
   );
 
   const lowestPaginationLimit = 1;
@@ -125,6 +126,7 @@ export default function List() {
       <ListBox
         dataToDisplay={dataToDisplay}
         selectedPersonId={selectedPersonId}
+        // setSelectedPersonId={setSelectedPersonId}
         handleItemSelection={handleItemSelection}
       />
     </section>
