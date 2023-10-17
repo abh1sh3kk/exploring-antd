@@ -6,6 +6,8 @@ function ListBox({
   selectedPersonId,
   handleItemSelection,
 }) {
+
+  console.log("list box", selectedPersonId)
   const nameList = useMemo(() => {
     return dataToDisplay.map((obj) => (
       <ListItem

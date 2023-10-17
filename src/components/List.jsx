@@ -34,9 +34,20 @@ export default function List() {
     );
   }, [paginationState]);
 
+  const [selectedPersonId, setSelectedPersonId] = useState(() => {
+    const sortedData = sortByType(
+      filterDataByGender(theData, filterOptions.gender),
+      sortOptions.sortBy,
+      sortOptions.sortOrder
+    );
+
+    return sortedData[startIndex]?.id;
+  });
+
+  console.log("render check");
+
   const handleItemSelection = (id) => {
-    if (selectedPersonId === id) setSelectedPersonId(null);
-    else setSelectedPersonId(id);
+    setSelectedPersonId(id);
   };
 
   const refinedData = useMemo(() => {
@@ -46,13 +57,9 @@ export default function List() {
       sortOptions.sortBy,
       sortOptions.sortOrder
     );
-
+    handleItemSelection(sortedData[startIndex]?.id);
     return sortedData;
   }, [filterOptions, sortOptions]);
-
-  const [selectedPersonId, setSelectedPersonId] = useState(
-    refinedData[startIndex]?.id
-  );
 
   const dataToDisplay = useMemo(() => {
     return refinedData.slice(startIndex, endIndex + 1);
@@ -90,10 +97,8 @@ export default function List() {
       const newStartIndex = getStartIndex(newPaginationNumber, newNoOfItems);
       handleItemSelection(refinedData[newStartIndex]?.id);
     },
-    [paginationState, paginationState]
+    [paginationState, paginationState, refinedData]
   );
-
-  console.log("render check");
 
   const lowestPaginationLimit = 1;
   const highestPaginationLimit = useMemo(() => {
