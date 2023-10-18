@@ -6,6 +6,7 @@ import InfoPanel from "./InfoPanel";
 import ListBox from "./ListBox";
 
 export default function List() {
+
   console.log("render check");
 
   const [filterOptions, setFilterOptions] = useState({
@@ -46,11 +47,6 @@ export default function List() {
     return sortedData[startIndex]?.id;
   });
 
-  useEffect(() => {
-    console.log(dataToDisplay[0])
-    setSelectedPersonId(dataToDisplay[0]?.id)
-  }, [filterOptions, sortOptions, paginationState]);
-
   const handleItemSelection = (id) => {
     setSelectedPersonId(id);
   };
@@ -68,6 +64,15 @@ export default function List() {
   const dataToDisplay = useMemo(() => {
     return refinedData.slice(startIndex, endIndex + 1);
   }, [refinedData, startIndex, endIndex, selectedPersonId]);
+
+  useEffect(() => {
+    setSelectedPersonId(dataToDisplay[0]?.id);
+  }, [filterOptions, sortOptions, paginationState ]);
+
+  const lowestPaginationLimit = 1;
+  const highestPaginationLimit = useMemo(() => {
+    return Math.ceil(refinedData.length / paginationState?.noOfItems);
+  }, [paginationState?.noOfItems, refinedData.length]);
 
   const handlePagination = useCallback(
     (action) => {
@@ -98,13 +103,8 @@ export default function List() {
 
       setPaginationState(newPaginationState);
     },
-    [paginationState, refinedData]
+    [paginationState, highestPaginationLimit]
   );
-
-  const lowestPaginationLimit = 1;
-  const highestPaginationLimit = useMemo(() => {
-    return Math.ceil(refinedData.length / paginationState?.noOfItems);
-  }, [paginationState?.noOfItems, refinedData.length]);
 
   return (
     <section className="list-section">
